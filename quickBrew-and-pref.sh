@@ -52,6 +52,7 @@ brew isntall --cask git
 brew install gh
 brew install --cask microsoft-teams
 brew install --cask slack
+brew install php
 
 #### ohmyzsh installation 
 
