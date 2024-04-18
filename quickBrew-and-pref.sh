@@ -20,7 +20,7 @@ brew install --cask nomachine
 brew install awscli
 brew install azure-cli
 brew install --cask skype
-brew install --cask chatmate-for-whatsapp
+brew install --cask whatsapp
 brew install --cask zerotier-one
 brew install --cask zoom
 brew install --cask cyberduck
