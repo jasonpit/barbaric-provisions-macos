@@ -3,7 +3,7 @@
 ## Overview
 This script automates the installation and configuration of essential applications, development tools, and system preferences for macOS. Whether setting up a new Mac or refreshing an existing setup, this script streamlines the process. Feel free to contribute!
 
-![macOS Setup](https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg)
+![macOS Setup](https://en.wikipedia.org/wiki/Apple_Inc.#/media/File:Apple_Computer_Logo_rainbow.svg)
 
 ## Features
 - **Installs popular development tools** like AWS CLI, Azure CLI, Docker, Git, PHP, MySQL, and Terraform.
@@ -22,9 +22,9 @@ This script automates the installation and configuration of essential applicatio
 ### 1. Download and Run the Script
 Clone this repository or download the script:
 ```bash
-curl -O https://raw.githubusercontent.com/your-repo/mac-setup/main/mac_setup.sh
-chmod +x mac_setup.sh
-./mac_setup.sh
+curl -O https://github.com/wcet-dope-aio/macops/blob/main/quickBrew.sh
+chmod +x quickBrew.sh
+./quickBrew.sh
 ```
 
 ### 2. Follow the Prompts
