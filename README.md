@@ -3,8 +3,33 @@
 ## Overview
 This script automates the installation and configuration of essential applications, development tools, and system preferences for macOS. Whether setting up a new Mac or refreshing an existing setup, this script streamlines the process. Feel free to contribute!
 
-![macOS Setup](https://freebiesupply.com/logos/apple-computer-rainbow-logo/)
+```                     .8 
+                      .888
+                    .8888'
+                   .8888'
+                   888'
+                   8'
+      .88888888888. .88888888888.
+   .8888888888888888888888888888888.
+ .8888888888888888888888888888888888.
+.&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&'
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&'
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&'
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@:
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@:
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@:
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%.
+`%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%.
+ `00000000000000000000000000000000000'
+  `000000000000000000000000000000000'
+   `0000000000000000000000000000000'
+     `###########################'
+      `#######################'
+         `#########''########'
+           `""""""'  `"""""'
 
+```
 ## Features
 - **Installs popular development tools** like AWS CLI, Azure CLI, Docker, Git, PHP, MySQL, and Terraform.
 - **Sets up web browsers** including Microsoft Edge, Google Chrome, Firefox, and Chromium.
