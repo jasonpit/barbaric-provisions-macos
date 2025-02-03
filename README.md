@@ -3,7 +3,7 @@
 ## Overview
 This script automates the installation and configuration of essential applications, development tools, and system preferences for macOS. Whether setting up a new Mac or refreshing an existing setup, this script streamlines the process. Feel free to contribute!
 
-![macOS Setup](https://en.wikipedia.org/wiki/Apple_Inc.#/media/File:Apple_Computer_Logo_rainbow.svg)
+![macOS Setup](https://freebiesupply.com/logos/apple-computer-rainbow-logo/)
 
 ## Features
 - **Installs popular development tools** like AWS CLI, Azure CLI, Docker, Git, PHP, MySQL, and Terraform.
