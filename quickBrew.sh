@@ -112,7 +112,7 @@ fi
 
 #### Utilities & System Tools ####
 if confirm_install "Utilities & System Tools"; then
-    brew install --cask cyberduck balenaetcher the-unarchiver zerotier-one steam angry-ip-scanner transmission
+    brew install --cask cyberduck balenaetcher the-unarchiver steam transmission
     echo "✅ Utilities & System Tools installed!"
 else
     echo "❌ Skipping Utilities & System Tools"
@@ -128,7 +128,7 @@ fi
 
 #### Terminal & Networking ####
 if confirm_install "Terminal & Networking Tools"; then
-    brew install --cask iterm2 nomachine
+    brew install --cask iterm2 nomachine zerotier-one angry-ip-scanner
     echo "✅ Terminal & Networking tools installed!"
 else
     echo "❌ Skipping Terminal & Networking tools"
