@@ -79,7 +79,7 @@ echo "Installing applications..."
 #### Development & CLI Tools ####
 if confirm_install "Development & CLI Tools"; then
     brew install awscli azure-cli docker gh git php mysql node
-    brew install --cask visual-studio-code powershell onedrive microsoft-remote-desktop
+    brew install --cask visual-studio-code powershell onedrive omnissa-horizon-client windows-app
     brew tap hashicorp/tap && brew install hashicorp/tap/terraform
     echo "✅ Development & CLI Tools installed!"
 else
