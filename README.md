@@ -60,7 +60,7 @@ The script will ask for confirmation before installing different categories of s
 🔥 Dude! Get ready for all your stuff! 🔥
 📋 Here’s what’s going to be installed:
 --------------------------------------------------
-📌 Development & CLI Tools: AWS CLI, Azure CLI, Docker, Git, PHP, MySQL, VS Code, Terraform, node, Powershell, Omnissa horizon client, Windows App, One Drive
+📌 Development & CLI Tools: AWS CLI, Azure CLI, Docker, Git, PHP, MySQL, VS Code, Terraform, node, Powershell, Omnissa horizon client, Windows App, One Drive, gimme-aws-creds
 📌 Web Browsers: Microsoft Edge, Google Chrome, Firefox, Chromium
 📌 Design & Media: Krita, Inkscape, VLC, Google Web Designer, Transmission
 📌 Communication: Skype, WhatsApp, Zoom, Slack, Microsoft Teams
