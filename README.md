@@ -1,94 +1,80 @@
 # macOS Setup Script
 
-## Overview
-This script automates the installation and configuration of essential applications, development tools, and system preferences for macOS. Whether setting up a new Mac or refreshing an existing setup, this script streamlines the process. Feel free to contribute!
+### A script to set up a new Mac
 
-```                     .8 
-                      .888
-                    .8888'
-                   .8888'
-                   888'
-                   8'
-      .88888888888. .88888888888.
-   .8888888888888888888888888888888.
- .8888888888888888888888888888888888.
-.&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&'
-&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&'
-&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&'
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@:
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@:
-@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@:
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%.
-`%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%.
- `00000000000000000000000000000000000'
-  `000000000000000000000000000000000'
-   `0000000000000000000000000000000'
-     `###########################'
-      `#######################'
-         `#########''########'
-           `""""""'  `"""""'
-
-```
-## Features
-- **Installs popular development tools** like AWS CLI, Azure CLI, Docker, Git, PHP, MySQL, and Terraform.
-- **Sets up web browsers** including Microsoft Edge, Google Chrome, Firefox, and Chromium.
-- **Installs design & media applications** such as Krita, Inkscape, VLC, and Google Web Designer.
-- **Adds communication & collaboration tools** like Skype, WhatsApp, Zoom, Slack, and Microsoft Teams.
-- **Configures utilities & system tools** including Cyberduck, Balena Etcher, ZeroTier One, Steam, and Angry IP Scanner.
-- **Installs Android development tools** like Android Platform Tools, Scrcpy, and Android File Transfer.
-- **Enhances the terminal experience** with iTerm2, NoMachine, and Oh My Zsh.
-- **Configures custom aliases** for common commands and shortcuts.
-- **Customizes macOS Dock & Finder preferences** to streamline usability.
-- **Performs Homebrew cleanup** to remove outdated packages and free up space.
-- **Encourages cloud storage usage** to ensure data protection and easy recovery.
-
-## Installation
-### 1. Download and Run the Script
-Clone this repository or download the script:
-```bash
-curl -O https://github.com/wcet-dope-aio/macops/blob/main/quickBrew.sh
-chmod +x quickBrew.sh
-./quickBrew.sh
-```
-
-### 2. Follow the Prompts
-The script will ask for confirmation before installing different categories of software. Answer `y` to install or `n` to skip.
-
-## Terminal Output Example
-```
-🔥 Dude! Get ready for all your stuff! 🔥
-📋 Here’s what’s going to be installed:
---------------------------------------------------
-📌 Development & CLI Tools: AWS CLI, Azure CLI, Docker, Git, PHP, MySQL, VS Code, Terraform, node, Powershell, Omnissa horizon client, Windows App, One Drive, gimme-aws-creds
-📌 Web Browsers: Microsoft Edge, Google Chrome, Firefox, Chromium
-📌 Design & Media: Krita, Inkscape, VLC, Google Web Designer, Transmission
-📌 Communication: Skype, WhatsApp, Zoom, Slack, Microsoft Teams
-📌 Utilities & System Tools: Cyberduck, Balena Etcher, The Unarchiver, ZeroTier One, Steam, Angry IP Scanner
-📌 Android Development: Android Platform Tools, Scrcpy, File Transfer
-📌 Terminal & Networking: iTerm2, NoMachine
-📌 Oh My Zsh Custom Shell
-📌 Custom Aliases for CLI shortcuts
-📌 macOS Dock Customization & Finder Preferences
-📌 Homebrew Cleanup
---------------------------------------------------
-💾 Reminder: LIVE in your cloud storage! Store your important files in OneDrive (Documents) or another cloud service. If something goes wrong, recovery will be much easier! 🚀
-```
-
-## Cloud Storage Reminder
-💡 **LIVE in your cloud storage!** Save your important documents in OneDrive, Google Drive, or another cloud service. This makes it easier to recover from unexpected issues and ensures your work is always backed up.
-
-## Notes
-- This script is intended for **macOS users** and relies on **Homebrew**.
-- If Homebrew is not installed, the script will install it automatically.
-- The script prompts users before installing each category of applications.
-
-## Contributing
-If you have improvements or want to add more features, feel free to submit a pull request!
-
-## License
-This script is open-source and available under the MIT License.
+**Author:** Jason Pittman  
+**Version:** 1.3 (Updated 2025-03-31)
 
 ---
-**Created by Jason Pittman** - Version 1.2 (Updated 2025-02-03)
 
+## Overview
+
+This script automates the installation and configuration of essential software, development tools, and system preferences on macOS. It’s designed to get your new (or refreshed) Mac up and running quickly with minimal manual intervention.
+
+The script performs the following tasks:
+
+- **Bash Upgrade:**  
+  Checks if the current Bash version is below 4.0. If so, it will:
+  - Install Homebrew (if not already installed)
+  - Use Homebrew to install the latest Bash
+  - Re-launch itself using the newly installed Bash
+
+- **Homebrew Management:**  
+  - Automatically installs Homebrew if it’s not installed.
+  - Updates Homebrew, upgrades installed formulae, and runs `brew doctor` if Homebrew is already installed.
+  - Adds the HashiCorp tap for tools like Terraform if not already present.
+
+- **System Backup & Customization:**  
+  - Backs up Finder preferences to your Desktop.
+  - Customizes Finder (e.g., setting Column View, enabling the Path Bar and Status Bar).
+  - Customizes the Dock by adding six spacer tiles without clearing existing items.
+
+- **Software Installation:**  
+  The script uses an associative array to organize software into categories. For each category, it prompts you for confirmation before proceeding with installation. It distinguishes between Homebrew formulae and casks automatically.
+  
+  The current categories and their packages include:
+
+  - **Development & CLI Tools:**  
+    `awscli`, `azure-cli`, `docker`, `gh`, `git`, `php`, `mysql`, `node`, `azcopy`, `terraform`
+  
+  - **Web Browsers:**  
+    `microsoft-edge`, `google-chrome`, `firefox`, `chromium`, `google-chrome-canary`, `brave-browser`
+  
+  - **Design & Media:**  
+    `krita`, `inkscape`, `vlc`, `ffmpeg`, `snagit`, `airfoil`
+  
+  - **Communication:**  
+    `skype`, `whatsapp`, `zoom`, `slack`, `microsoft-teams`
+  
+  - **Utilities & System Tools:**  
+    `cyberduck`, `balenaetcher`, `the-unarchiver`, `steam`, `transmission`
+  
+  - **Android Development:**  
+    `android-commandlinetools`, `android-file-transfer`, `android-platform-tools`, `scrcpy`
+  
+  - **Terminal & Networking:**  
+    `iterm2`, `nomachine`, `zerotier-one`, `angry-ip-scanner`
+  
+  - **Audio & Music:**  
+    `native-access`
+
+- **Additional Features:**  
+  - **Oh My Zsh Installation:**  
+    Installs Oh My Zsh if you choose to, along with custom shell aliases.
+  
+  - **Homebrew Cleanup:**  
+    Optionally cleans up outdated Homebrew packages at the end of the script.
+
+- **User Interaction:**  
+  The script is interactive—it will prompt you to confirm whether to install each category, giving you full control over what gets installed.
+
+---
+
+## Usage
+
+1. **Download and Prepare the Script:**
+
+   Clone this repository or download the script file:
+   ```bash
+   curl -O https://raw.githubusercontent.com/<your-username>/<your-repo>/main/quickBrew.sh
+   chmod +x quickBrew.sh

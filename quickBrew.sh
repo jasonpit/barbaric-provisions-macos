@@ -1,7 +1,26 @@
 #!/bin/bash
+# Check for Bash version 4 or later and auto-install Bash if needed
+if [ "${BASH_VERSINFO[0]}" -lt 4 ]; then
+    echo "Your Bash version is ${BASH_VERSINFO[0]}. This script requires Bash 4.0 or later."
+    
+    # Install Homebrew if it's not installed
+    if ! command -v brew &>/dev/null; then
+         echo "Homebrew is not installed. Installing Homebrew first..."
+         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || { echo "Homebrew installation failed!"; exit 1; }
+         eval "$($(/opt/homebrew/bin/brew shellenv))"
+         echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> "$HOME/.zprofile"
+    fi
+    
+    echo "Installing Bash..."
+    brew install bash || { echo "Failed to install Bash"; exit 1; }
+    new_bash="$(brew --prefix bash)/bin/bash"
+    echo "New Bash installed at $new_bash"
+    echo "Re-launching script with new Bash..."
+    exec "$new_bash" "$0" "$@"
+fi
 ### A script to set up a new Mac ###
 ### Author: Jason Pittman ###
-### Version: 1.2 (Updated 2025-02-03) ###
+### Version: 1.3 (Updated 2025-03-31) ###
 
 clear
 cat << "EOF"
@@ -32,130 +51,103 @@ cat << "EOF"
            `""""""'  `"""""'
 EOF
 
-echo "🔥 Dude! Get ready for all your stuff! 🔥"
+echo "🔥 Dude! Get ready for all your software! 🔥"
 sleep 3
 
 echo "Starting macOS setup script..."
-echo "💾 Reminder: LIVE in your cloud storage! Store your important files in OneDrive (Documents) or another cloud service. If something goes wrong, recovery will be much easier! 🚀"
+echo "💾 Reminder: Store important files in OneDrive or cloud storage for easy recovery! 🚀"
 
 # Ensure Homebrew is installed
 if ! command -v brew &>/dev/null; then
-    echo "Homebrew is not installed. Installing Homebrew..."
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || { echo "Homebrew installation failed!"; exit 1; }
+    echo "Homebrew is not installed. Installing..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || {
+        echo "❌ Homebrew installation failed!"; exit 1;
+    }
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+    echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> "$HOME/.zprofile"
 else
-    echo "Homebrew is already installed. Updating and upgrading..."
-    brew update && brew upgrade
-    brew doctor
+    echo "✅ Homebrew is already installed. Updating..."
+    brew update && brew upgrade && brew doctor
+
+    # Ensure HashiCorp tap is added for HashiCorp tools
+    if ! brew tap | grep -q "hashicorp/tap"; then
+        echo "Tapping hashicorp/tap for HashiCorp tools..."
+        brew tap hashicorp/tap
+    fi
 fi
 
-echo "\n📋 Here’s what’s going to be installed:"
-echo "--------------------------------------------------"
-echo "📌 Development & CLI Tools: AWS CLI, Azure CLI, Docker, Git, PHP, MySQL, VS Code, Terraform"
-echo "📌 Web Browsers: Microsoft Edge, Google Chrome, Firefox, Chromium, Chrome Canary, Brave"
-echo "📌 Design & Media: Krita, Inkscape, VLC, Google Web Designer"
-echo "📌 Communication: Skype, WhatsApp, Zoom, Slack, Microsoft Teams"
-echo "📌 Utilities & System Tools: Cyberduck, Balena Etcher, The Unarchiver, ZeroTier One, Steam, Angry IP Scanner, Transmission"
-echo "📌 Android Development: Android Platform Tools, Scrcpy, File Transfer"
-echo "📌 Terminal & Networking: iTerm2, NoMachine"
-echo "📌 Oh My Zsh Custom Shell"
-echo "📌 Custom OhMyzsh Aliases for CLI shortcuts - like > get your IP's, password generator, updated everything"
-echo "📌 macOS Dock Customization & Finder Preferences"
-echo "📌 Homebrew Cleanup"
-echo "--------------------------------------------------"
-sleep 5
+# Backup Finder preferences
+FINDER_PLIST=~/Library/Preferences/com.apple.finder.plist
+if [ -f "$FINDER_PLIST" ]; then
+    cp "$FINDER_PLIST" ~/Desktop/com.apple.finder.plist.backup
+    echo "✅ Finder preferences backed up!"
+else
+    echo "⚠️ Finder preferences not found, skipping backup."
+fi
 
-#### Function to prompt user for confirmation ####
+# List of software to install
+declare -A SOFTWARE_PACKAGES=(
+    ["Development & CLI Tools"]="awscli azure-cli docker gh git php mysql node azcopy terraform"
+    ["Web Browsers"]="microsoft-edge google-chrome firefox chromium google-chrome-canary brave-browser"
+    ["Design & Media"]="krita inkscape vlc ffmpeg snagit airfoil"
+    ["Communication"]="skype whatsapp zoom slack microsoft-teams"
+    ["Utilities & System Tools"]="cyberduck balenaetcher the-unarchiver steam transmission"
+    ["Android Development"]="android-commandlinetools android-file-transfer android-platform-tools scrcpy"
+    ["Terminal & Networking"]="iterm2 nomachine zerotier-one angry-ip-scanner"
+    ["Audio & Music"]="native-access"
+)
+
+
+
+# Function to prompt for confirmation
 confirm_install() {
     read -p "Do you want to install $1? (y/n) " choice
-    case "$choice" in 
-        y|Y ) return 0 ;;  # Proceed
-        * ) return 1 ;;     # Skip
-    esac
+    [[ "$choice" =~ ^[Yy]$ ]]
 }
 
-#### Installation Process ####
-echo "Installing applications..."
-
-#### Development & CLI Tools ####
-if confirm_install "Development & CLI Tools"; then
-    brew install awscli azure-cli docker gh git php mysql node
-    brew install --cask visual-studio-code powershell onedrive omnissa-horizon-client windows-app gimme-aws-creds
-    brew tap hashicorp/tap && brew install hashicorp/tap/terraform
-    echo "✅ Development & CLI Tools installed!"
-else
-    echo "❌ Skipping Development & CLI Tools"
-fi
-
-#### Web Browsers ####
-if confirm_install "Web Browsers"; then
-    brew install --cask microsoft-edge google-chrome firefox chromium brew google-chrome@canary brave-browser
-    echo "✅ Web Browsers installed!"
-else
-    echo "❌ Skipping Web Browsers"
-fi
-
-#### Design & Media ####
-if confirm_install "Design & Media Apps"; then
-    brew install --cask krita inkscape vlc google-web-designer
-    echo "✅ Design & Media apps installed!"
-else
-    echo "❌ Skipping Design & Media apps"
-fi
-
-#### Communication ####
-if confirm_install "Communication Apps"; then
-    brew install --cask skype whatsapp zoom slack microsoft-teams
-    echo "✅ Communication apps installed!"
-else
-    echo "❌ Skipping Communication apps"
-fi
-
-#### Utilities & System Tools ####
-if confirm_install "Utilities & System Tools"; then
-    brew install --cask cyberduck balenaetcher the-unarchiver steam transmission
-    echo "✅ Utilities & System Tools installed!"
-else
-    echo "❌ Skipping Utilities & System Tools"
-fi
-
-#### Android Development ####
-if confirm_install "Android Development Tools"; then
-    brew install --cask android-commandlinetools android-file-transfer android-platform-tools scrcpy
-    echo "✅ Android Development Tools installed!"
-else
-    echo "❌ Skipping Android Development Tools"
-fi
-
-#### Terminal & Networking ####
-if confirm_install "Terminal & Networking Tools"; then
-    brew install --cask iterm2 nomachine zerotier-one angry-ip-scanner
-    echo "✅ Terminal & Networking tools installed!"
-else
-    echo "❌ Skipping Terminal & Networking tools"
-fi
-
-#### Oh My Zsh Installation ####
-if confirm_install "Oh My Zsh"; then
-    if [ ! -d "$HOME/.oh-my-zsh" ]; then
-        echo "Installing Oh My Zsh..."
-        sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-        echo "✅ Oh My Zsh installed!"
+# Install software
+for category in "${!SOFTWARE_PACKAGES[@]}"; do
+    if confirm_install "$category"; then
+        for package in ${SOFTWARE_PACKAGES[$category]}; do
+            # Check if the package is available as a cask
+            if brew info --cask "$package" > /dev/null 2>&1; then
+                echo "Installing $package as a cask..."
+                brew install --cask "$package"
+            else
+                echo "Installing $package as a formula..."
+                brew install "$package"
+            fi
+        done
+        echo "✅ $category installed!"
     else
-        echo "Oh My Zsh is already installed."
+        echo "❌ Skipping $category"
     fi
+done
+
+# Oh My Zsh installation
+if confirm_install "Oh My Zsh" && [ ! -d "$HOME/.oh-my-zsh" ]; then
+    echo "Installing Oh My Zsh..."
+    sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    echo "✅ Oh My Zsh installed!"
 else
     echo "❌ Skipping Oh My Zsh installation"
 fi
 
-#### Custom Aliases ####
+# Custom Aliases
 if confirm_install "Custom Aliases"; then
     ALIAS_FILE="$HOME/.oh-my-zsh/custom/aliases.zsh"
+    mkdir -p "$(dirname "$ALIAS_FILE")"
     cat > "$ALIAS_FILE" <<EOF
 alias ll='ls -al'
-alias aliases='vim ~/.oh-my-zsh/custom/aliases.zsh'
-alias update='sudo softwareupdate -ia --verbose && brew upgrade && brew cleanup'
-alias ip='curl ifconfig.co && ipconfig getifaddr en0 && ipconfig getifaddr en1'
-alias pw='openssl rand -base64 32'
+alias la='ls -a'
+alias update='sudo softwareupdate -ia --verbose && brew upgrade'
+alias ip='echo "Public IPv4: $(curl -s ifconfig.co)" && ipconfig getifaddr en0'
+alias pw='openssl rand -base64 16'
+alias gs='git status'
+alias ga='git add .'
+alias gc='git commit -m'
+alias gp='git push'
+alias weather='curl -s wttr.in'
 EOF
     echo "source $ALIAS_FILE" >> "$HOME/.zshrc"
     echo "✅ Custom Aliases configured!"
@@ -163,9 +155,27 @@ else
     echo "❌ Skipping Custom Aliases setup"
 fi
 
-#### macOS Dock Customization ####
+# Finder Customization  
+if confirm_install "Finder Customization"; then
+    defaults write com.apple.finder FXPreferredViewStyle -string "clmv"
+    defaults write com.apple.finder ShowPathbar -bool true
+    defaults write com.apple.finder ShowStatusBar -bool true
+    killall Finder
+    echo "✅ Finder customized!"
+else
+    echo "❌ Skipping Finder customization"
+fi
+
+# Dock Customization
 if confirm_install "macOS Dock Customization"; then
-    defaults write com.apple.dock persistent-apps -array-add '{"tile-type"="spacer-tile";}'
+    # Preserve existing dock items (do not clear them)
+    # If you wish to clear the Dock items, uncomment the next line
+    # defaults write com.apple.dock persistent-apps -array
+    
+    # Optionally add spacer tiles without removing current items
+    for i in {1..6}; do
+        defaults write com.apple.dock persistent-apps -array-add '{"tile-type"="spacer-tile";}'
+    done
     defaults write com.apple.dock mineffect -string scale
     killall Dock
     echo "✅ Dock customized!"
@@ -173,7 +183,7 @@ else
     echo "❌ Skipping Dock customization"
 fi
 
-#### Cleanup ####
+# Cleanup
 if confirm_install "Homebrew Cleanup"; then
     brew cleanup
     echo "✅ Cleanup complete!"
