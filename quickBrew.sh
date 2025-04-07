@@ -60,6 +60,10 @@ SCREENSHOT_DIR="/Users/jason/Pictures/ScreenShots"
 mkdir -p "$SCREENSHOT_DIR"
 defaults write com.apple.screencapture location "$SCREENSHOT_DIR"
 killall SystemUIServer
+# Create GitHub folder in ~/Documents and create a symlink in ~
+GITHUB_DIR="$HOME/Documents/GitHub"
+mkdir -p "$GITHUB_DIR"
+ln -sfn "$GITHUB_DIR" "$HOME/GitHub"
 
 echo "💾 Reminder: Store important files in OneDrive or cloud storage for easy recovery! 🚀"
 
