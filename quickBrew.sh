@@ -55,6 +55,12 @@ echo "🔥 Dude! Get ready for all your software! 🔥"
 sleep 3
 
 echo "Starting macOS setup script..."
+# Set custom screenshot location
+SCREENSHOT_DIR="/Users/jason/Pictures/ScreenShots"
+mkdir -p "$SCREENSHOT_DIR"
+defaults write com.apple.screencapture location "$SCREENSHOT_DIR"
+killall SystemUIServer
+
 echo "💾 Reminder: Store important files in OneDrive or cloud storage for easy recovery! 🚀"
 
 # Ensure Homebrew is installed
