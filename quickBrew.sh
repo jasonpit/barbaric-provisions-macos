@@ -148,16 +148,47 @@ if confirm_install "Custom Aliases"; then
     ALIAS_FILE="$HOME/.oh-my-zsh/custom/aliases.zsh"
     mkdir -p "$(dirname "$ALIAS_FILE")"
     cat > "$ALIAS_FILE" <<EOF
+## list all properly like in Linux.
 alias ll='ls -al'
 alias la='ls -a'
+alias lt='ls -alt'
+alias duh='du -sh * | sort -h'
+
+## open my alias file in vim.
+alias aliases='vim ~/.oh-my-zsh/custom/aliases.zsh'
+
+## run apple softwareupdates and then run brew updates.
 alias update='sudo softwareupdate -ia --verbose && brew upgrade'
-alias ip='echo "Public IPv4: $(curl -s ifconfig.co)" && ipconfig getifaddr en0'
+alias brewup='brew update && brew upgrade && brew cleanup'
+
+## give me my public IPv4, Ethernet, and Wi-Fi IPs with labels.
+alias ip='echo "Public IPv4: $(curl -4 -s ifconfig.co)" && echo "Ethernet (en0): $(ipconfig getifaddr en0 2>/dev/null || echo "Not connected")" && echo "Wi-Fi (en1): $(ipconfig getifaddr en1 2>/dev/null || echo "Not connected")"'
+alias pingg='ping -c 4 google.com'
+alias ports='lsof -i -P | grep LISTEN'
+
+## give me a random password
 alias pw='openssl rand -base64 16'
+
+## SSH and server management - you need to update this with your own servers and SSH keys
+alias server1='ssh -i ~/.ssh/.yourSSHKey 10.x.x.x.x' # replace with your server IP  
+alias tailserver1='ssh -i ~/.yourSSHKey 10.x.x.x.x' "tail -f /var/log/syslog"' # replace with your server IP  
+alias server2='ssh -i ~/.yourSSHKey 10.x.x.x.x''  # replace with your server IP  
+alias tailserver2='ssh -i ~/.yourSSHKey 10.x.x.x.x' "tail -f /var/log/syslog"' # replace with your server IP  
+alias dockerserver='ssh -i ~/.yourSSHKey 10.x.x.x.x' # replace with your server IP  
+
+## Development
 alias gs='git status'
 alias ga='git add .'
 alias gc='git commit -m'
 alias gp='git push'
+
+## System utilities
+alias flushdns='sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder'
+alias cleanup='find . -type f -name "*.DS_Store" -delete'
+
+## Productivity
 alias weather='curl -s wttr.in'
+alias timestamp='date +%Y%m%d%H%M%S'
 EOF
     echo "source $ALIAS_FILE" >> "$HOME/.zshrc"
     echo "✅ Custom Aliases configured!"
