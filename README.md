@@ -76,5 +76,5 @@ The script performs the following tasks:
 
    Clone this repository or download the script file:
    ```bash
-   curl -O https://raw.githubusercontent.com/<your-username>/<your-repo>/main/quickBrew.sh
+   curl -O https://github.com/jasonpit/barbaric-provisions-macos/quickBrew.sh
    chmod +x quickBrew.sh
