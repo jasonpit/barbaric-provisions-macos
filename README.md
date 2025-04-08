@@ -68,3 +68,13 @@ The script performs the following tasks:
 - **User Interaction:**  
   The script is interactive—it will prompt you to confirm whether to install each category, giving you full control over what gets installed.
 
+---
+
+## Usage
+
+1. **Download and Prepare the Script:**
+
+   Clone this repository or download the script file:
+   ```bash
+   curl -O https://raw.githubusercontent.com/<your-username>/<your-repo>/main/quickBrew.sh
+   chmod +x quickBrew.sh
